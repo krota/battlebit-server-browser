@@ -50,6 +50,10 @@ body {
   }
   
   /* ---------- Region Group ---------- */
+
+  .region-header {
+    cursor: pointer;
+  }
   
   .region-group {
     margin-bottom: 2rem;
