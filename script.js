@@ -37,7 +37,9 @@ async function getServers() {
         }
 
         const servers = await res.json();
-        console.log(servers);
+
+        // Debug Server Response
+        // console.log(servers);
 
         const filtered = showEmptyServers ? servers : servers.filter(s => s.Players > 0);
         const sorted = filtered.sort((a,b) => b.Players - a.Players);
