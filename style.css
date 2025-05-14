@@ -15,12 +15,36 @@ body {
     width: 100%;
   }
   
-  /* ---------- Buttons ---------- */
+  header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #333;
+  }
   
-  button,
-  #refresh {
+  header h1 {
+    font-size: 2rem;
+    margin: 0;
+    color: #f0f0f0;
+  }
+  
+  /* ---------- Controls & Buttons ---------- */
+  
+  .controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .controls button {
+    width: 200px;
+    max-width: 100%;
+  }
+  
+  button {
     padding: 0.5rem 1rem;
-    margin-bottom: 1rem;
     font-weight: bold;
     background: #333;
     color: #fff;
@@ -29,16 +53,14 @@ body {
     cursor: pointer;
   }
   
-  #refresh:hover {
+  button:hover {
     background: #444;
   }
   
-  /* ---------- Status Text ---------- */
-  
   #status {
-    margin-top: 1rem;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #aaa;
+    margin-top: 0.5rem;
   }
   
   /* ---------- Server List Layout ---------- */
@@ -50,10 +72,6 @@ body {
   }
   
   /* ---------- Region Group ---------- */
-
-  .region-header {
-    cursor: pointer;
-  }
   
   .region-group {
     margin-bottom: 2rem;
@@ -65,10 +83,10 @@ body {
   .region-group h2 {
     border-bottom: 1px solid #444;
     padding-bottom: 0.25rem;
-    margin-top: 0;
-    margin-bottom: 1rem;
+    margin: 0 0 1rem 0;
+    cursor: pointer;
   }
-
+  
   .toggle-icon {
     display: inline-block;
     transition: transform 0.2s ease;
@@ -77,6 +95,12 @@ body {
   
   .toggle-icon.collapsed {
     transform: rotate(-90deg);
+  }
+  
+  .region-servers {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
   }
   
   /* ---------- Individual Server Card ---------- */
@@ -89,7 +113,7 @@ body {
     line-height: 1.6;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
-
+  
   .badge {
     display: inline-block;
     padding: 0.2rem 0.5rem;
@@ -108,8 +132,22 @@ body {
     color: white;
   }
   
-  /* ---------- Utility Classes ---------- */
+  /* ---------- Utility ---------- */
   
   .hidden {
     display: none;
+  }
+  
+  /* ---------- Responsive ---------- */
+  
+  @media (max-width: 600px) {
+    .server {
+      padding: 0.75rem;
+      font-size: 0.85rem;
+    }
+  
+    .controls button {
+      width: 100%;
+      font-size: 1rem;
+    }
   }

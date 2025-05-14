@@ -1,4 +1,4 @@
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("load", () => {
     document.getElementById('refresh').addEventListener('click',getServers);
     document.getElementById('toggle-empty').addEventListener('click', () => {
         showEmptyServers = !showEmptyServers;
@@ -77,7 +77,7 @@ async function getServers() {
                 const readableGameMode = gameModeNames[server.Gamemode] || server.Gamemode;
                 const lockIcon = server.HasPassword ? '🔒 ' : '';
                 const serverName = `${lockIcon}${server.Name}`;
-                const isFull = server.Players >= server.MaxPlayers;
+                const isFull = (server.Players + server.QueuePlayers) >= server.MaxPlayers;
                 let statusBadge = '';
                 if (isFull) {
                     statusBadge = `<span class="badge full">Full</span>`;
@@ -96,7 +96,6 @@ async function getServers() {
                     Official: ${server.IsOfficial ? 'Yes' : 'No'}<br/>
                     Hz: ${server.Hz}</br>
                     `;
-                const serversContainer = regionDiv.querySelector('.region-servers');
                 serversContainer.appendChild(serverDiv);
             });
 
