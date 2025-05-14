@@ -8,6 +8,11 @@ window.addEventListener("load", () => {
         getServers();
     });
   getServers();
+
+  // Auto-refresh every 60 seconds
+  setInterval(() => {
+    getServers();
+  }, 60000);
 });
 
 let showEmptyServers = false;
@@ -27,9 +32,11 @@ async function getServers() {
       };
 
     try {
-        serverListDiv.innerHTML = '';
         statusDiv.textContent = 'Loading...'
         document.getElementById('loading-overlay').classList.add('visible');
+        requestAnimationFrame(() => {
+            serverListDiv.innerHTML = '';
+          });
 
         const res = await fetch(endpoint);
         if(!res.ok) {
@@ -103,7 +110,9 @@ async function getServers() {
                   serverClass += ' full';
                 } else if (isActive) {
                   serverClass += ' active';
-                } 
+                } else {
+                    serverClass += ' lowpop';
+                }
 
                 serverDiv.className = serverClass;
 
@@ -117,7 +126,7 @@ async function getServers() {
                         <div><strong>Game Mode:</strong> ${readableGameMode}</div>
                         <div><strong>Map:</strong> ${server.Map}</div>
                         <div><strong>Map Size:</strong> ${server.MapSize}</div>
-                        <div><strong>Password Protected:</strong> ${server.HasPassword ? 'Yes' : 'No'}</div>
+                        <div><strong>Password:</strong> ${server.HasPassword ? 'Yes' : 'No'}</div>
                         <div><strong>Official:</strong> ${server.IsOfficial ? 'Yes' : 'No'}</div>
                         <div><strong>Tickrate:</strong> ${server.Hz}Hz</div>
                     </div>

@@ -131,17 +131,14 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    width: 100%;
-    height: 100%;
-    background: #121212;
-    color: #aaa;
+    background: rgba(18, 18, 18, 0.85); /* translucent black */
+    z-index: 2;
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease;
-    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.2s ease;
   }
   
   #loading-overlay.visible {
@@ -169,6 +166,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    min-height: 600px;
   }
   
   /* ---------- Region Group ---------- */
@@ -239,14 +237,18 @@ body {
     color: #e0e0e0;
   }
   
-  .server-meta div {
-    font-size: 0.95rem;
-    line-height: 1.5;
-    margin-bottom: 0.25rem;
+  .server-meta div strong {
+    display: inline-block;
+    width: 130px;
+    color: #ccc;
+    font-weight: 600;
   }
   
-  .server-meta div strong {
-    color: #fff;
+  .server-meta div {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-bottom: 0.25rem;
+    color: #f0f0f0;
   }
   
   .server {
@@ -276,6 +278,21 @@ body {
   .server.locked {
     border-left: 4px solid #c49a00;
   }
+
+  .server.lowpop {
+    opacity: 0.6;
+    filter: grayscale(0.4);
+  }
+
+  .server.lowpop:hover {
+    opacity: 1;
+    filter: none;
+    transition: all 0.2s ease;
+  }
+
+  .server.lowpop h3, .server.lowpop .server-meta {
+    color: #bbb;
+  }
   
   /* ---------- Utility ---------- */
   
@@ -285,10 +302,10 @@ body {
   
   /* ---------- Responsive ---------- */
   
-  @media (max-width: 600px) {
-    .server {
-      padding: 0.75rem;
-      font-size: 0.85rem;
+    @media (max-width: 600px) {
+        .server {
+            padding: 0.75rem;
+            font-size: 0.85rem;
     }
   
     .controls button {
@@ -296,3 +313,9 @@ body {
       font-size: 1rem;
     }
   }
+
+  @media (max-width: 500px) {
+    .server h3 {
+        font-size: 1rem;
+    }
+}
