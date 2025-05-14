@@ -12,9 +12,20 @@
         <h1>BattleBit Server Browser</h1>
     </header>
     <div class="controls">
-    <button id="refresh">Refresh</button>
-    <button id="toggle-empty">Show Empty Servers</button>
-    <div id="status">Loading...</div>
+        <div id="stats"></div>
+        <div class="button-row">
+            <button id="refresh">Refresh</button>
+            <button id="toggle-empty">Show Empty Servers</button>
+        </div>
+        <div class="top-meta">
+            <div class="legend">
+                <span><span class="dot dot-green"></span> Good Pop</span>
+                <span><span class="dot dot-gray"></span> Low Pop</span>
+                <span><span class="dot dot-yellow"></span> Locked</span>
+                <span><span class="dot dot-red"></span> Full</span></div>
+            <div id="status">Loading...</div>
+        </div>
+    </div>
     <div class="server-pane">
         <div id="loading-overlay" class="visible">
             <svg class="spinner-crosshair" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">

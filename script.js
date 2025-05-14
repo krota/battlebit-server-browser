@@ -5,8 +5,8 @@ window.addEventListener("load", () => {
         document.getElementById('toggle-empty').textContent = showEmptyServers
           ? 'Hide Empty Servers'
           : 'Show Empty Servers';
-    getServers();
-  });
+        getServers();
+    });
   getServers();
 });
 
@@ -62,11 +62,15 @@ async function getServers() {
         grouped.forEach((servers, region) => {
             if (servers.length === 0) return;
             const regionDiv = document.createElement('div');
-            const regionName = region.replace(/_/g, ' ');
+            const regionName = region.split('_')[0];
+            const formattedRegion = regionName.charAt(0).toUpperCase() + regionName.slice(1);
+            const totalPlayers = servers.reduce((sum,server) => sum + server.Players, 0);
             regionDiv.className = 'region-group';
             regionDiv.innerHTML = `
                 <h2 class="region-header">
-                    <span class="toggle-icon">▼</span> ${regionName}
+                    <span class="toggle-icon">▼</span> 
+                    <span class="region-name">${formattedRegion}</span>
+                    <span class="player-count">👥 <strong>${totalPlayers.toLocaleString()}</strong></span>
                 </h2>
                 <div class="region-servers"></div>
                 `;
@@ -82,35 +86,44 @@ async function getServers() {
 
             servers.forEach(server => {
                 const readableGameMode = gameModeNames[server.Gamemode] || server.Gamemode;
-                const lockIcon = server.HasPassword ? '🔒 ' : '';
-                const serverName = `${lockIcon}${server.Name}`;
                 const isFull = (server.Players + server.QueuePlayers) >= server.MaxPlayers;
-                let statusBadge = '';
-                if (isFull) {
-                    statusBadge = `<span class="badge full">Full</span>`;
-                } else if (!server.HasPassword) {
-                    statusBadge = `<span class="badge joinable">Joinable</span>`;
-                }
+                const isActive = (server.Players + server.QueuePlayers) / server.MaxPlayers > 0.7;
+                const isLocked = server.HasPassword;
+                const lockIcon = isLocked ? '🔒 ' : '';
+                const serverName = `${lockIcon} ${server.Name}`;
+                
                 const serverDiv = document.createElement('div');
-                serverDiv.className = 'server';
+                
+                let serverClass = 'server';
+                let statusBadge = '';
+                
+                if (isLocked) {
+                  serverClass += ' locked';
+                } else if (isFull) {
+                  serverClass += ' full';
+                } else if (isActive) {
+                  serverClass += ' active';
+                } 
+
+                serverDiv.className = serverClass;
+
                 serverDiv.innerHTML = `
                     <div class="server-header">
-                        <strong>${serverName}</strong>
+                        <h3><strong>${serverName}</strong></h3>
                         ${statusBadge}
                     </div>
                     <div class="server-meta">
-                        <div>Players: ${server.Players}/${server.MaxPlayers} (${server.QueuePlayers} in queue)</div>
-                        <div>Game Mode: ${readableGameMode}</div>
-                        <div>Map: ${server.Map}</div>
-                        <div>Map Size: ${server.MapSize}</div>
-                        <div>Password Protected: ${server.HasPassword ? 'Yes' : 'No'}</div>
-                        <div>Official: ${server.IsOfficial ? 'Yes' : 'No'}</div>
-                        <div>Tickrate: ${server.Hz}Hz</div>
+                        <div><strong>Players:</strong> ${server.Players}/${server.MaxPlayers} (${server.QueuePlayers} in queue)</div>
+                        <div><strong>Game Mode:</strong> ${readableGameMode}</div>
+                        <div><strong>Map:</strong> ${server.Map}</div>
+                        <div><strong>Map Size:</strong> ${server.MapSize}</div>
+                        <div><strong>Password Protected:</strong> ${server.HasPassword ? 'Yes' : 'No'}</div>
+                        <div><strong>Official:</strong> ${server.IsOfficial ? 'Yes' : 'No'}</div>
+                        <div><strong>Tickrate:</strong> ${server.Hz}Hz</div>
                     </div>
                     `;
                 serversContainer.appendChild(serverDiv);
             });
-
             serverListDiv.appendChild(regionDiv);
         });
 
