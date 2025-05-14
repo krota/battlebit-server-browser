@@ -99,7 +99,7 @@ async function getServers() {
                         <div>Map Size: ${server.MapSize}</div>
                         <div>Password Protected: ${server.HasPassword ? 'Yes' : 'No'}</div>
                         <div>Official: ${server.IsOfficial ? 'Yes' : 'No'}</div>
-                        <div>Hz: ${server.Hz}</div>
+                        <div>Tickrate: ${server.Hz}Hz</div>
                     </div>
                     `;
                 serversContainer.appendChild(serverDiv);
