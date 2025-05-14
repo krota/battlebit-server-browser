@@ -36,6 +36,10 @@ async function getServers() {
             throw new Error(`Response status: ${res.status}`);
         }
 
+        const now = new Date().toLocaleTimeString();
+        statusDiv.textContent = `Last updated at ${now}`;
+        document.getElementById('loading-overlay').classList.remove('visible');
+
         const servers = await res.json();
 
         // Debug Server Response
@@ -109,10 +113,6 @@ async function getServers() {
 
             serverListDiv.appendChild(regionDiv);
         });
-
-        const now = new Date().toLocaleTimeString();
-        statusDiv.textContent = `Last updated at ${now}`;
-        document.getElementById('loading-overlay').classList.remove('visible');
 
     } catch (error) {
         console.error(error.message);
