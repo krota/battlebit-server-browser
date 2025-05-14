@@ -29,6 +29,7 @@ async function getServers() {
     try {
         serverListDiv.innerHTML = '';
         statusDiv.textContent = 'Loading...'
+        document.getElementById('loading-overlay').classList.add('visible');
 
         const res = await fetch(endpoint);
         if(!res.ok) {
@@ -87,14 +88,19 @@ async function getServers() {
                 const serverDiv = document.createElement('div');
                 serverDiv.className = 'server';
                 serverDiv.innerHTML = `
-                    <strong>${serverName}</strong><br/>
-                    Players: ${server.Players}/${server.MaxPlayers} (${server.QueuePlayers} in queue) ${statusBadge}<br/>
-                    Game Mode: ${readableGameMode}<br/>
-                    Map: ${server.Map}<br/>
-                    Map Size: ${server.MapSize}<br/>
-                    Password Protected: ${server.HasPassword ? 'Yes' : 'No'}<br/>
-                    Official: ${server.IsOfficial ? 'Yes' : 'No'}<br/>
-                    Hz: ${server.Hz}</br>
+                    <div class="server-header">
+                        <strong>${serverName}</strong>
+                        ${statusBadge}
+                    </div>
+                    <div class="server-meta">
+                        <div>Players: ${server.Players}/${server.MaxPlayers} (${server.QueuePlayers} in queue)</div>
+                        <div>Game Mode: ${readableGameMode}</div>
+                        <div>Map: ${server.Map}</div>
+                        <div>Map Size: ${server.MapSize}</div>
+                        <div>Password Protected: ${server.HasPassword ? 'Yes' : 'No'}</div>
+                        <div>Official: ${server.IsOfficial ? 'Yes' : 'No'}</div>
+                        <div>Hz: ${server.Hz}</div>
+                    </div>
                     `;
                 serversContainer.appendChild(serverDiv);
             });
@@ -104,6 +110,7 @@ async function getServers() {
 
         const now = new Date().toLocaleTimeString();
         statusDiv.textContent = `Last updated at ${now}`;
+        document.getElementById('loading-overlay').classList.remove('visible');
 
     } catch (error) {
         console.error(error.message);
